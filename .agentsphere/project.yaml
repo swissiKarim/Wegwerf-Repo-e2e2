@@ -1,0 +1,31 @@
+schemaVersion: 4
+rationale: E2E2 lab health process service with platform verify slots
+components:
+  - name: app
+    path: .
+    toolchain:
+      image: agentsphere/sandbox-polyglot
+      kind: python
+    verify:
+      - "ruff check ."
+      - "pytest"
+    verifySlots:
+      lint:
+        command: "ruff check ."
+        source: platform_default
+      test:
+        command: "pytest"
+        source: platform_default
+    artifacts_ignore: []
+definition_of_done:
+  - "GET /health returns HTTP 200 with body containing ready"
+  - "ruff check and pytest pass on the workspace"
+network:
+  needs: []
+services:
+  - name: web
+    start: bash scripts/start-web.sh
+    port: 8099
+    health:
+      http: /health
+      timeoutSec: 30
