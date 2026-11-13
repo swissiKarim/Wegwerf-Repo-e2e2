@@ -8,14 +8,7 @@ components:
       kind: python
     verify:
       - "ruff check ."
-      - "pytest"
-    verifySlots:
-      lint:
-        command: "ruff check ."
-        source: platform_default
-      test:
-        command: "pytest"
-        source: platform_default
+      - "pytest --junitxml=.agentsphere/reports/junit.xml"
     artifacts_ignore: []
 definition_of_done:
   - "GET /health returns HTTP 200 with body containing ready"
